@@ -4,7 +4,7 @@ public class TicTacToeFinal
 {
 	static Scanner input = new Scanner(System.in);
 	
-	//0 is free, 1 is player, 2 is computer 
+	//for various variables - 0 is free, 1 is player, 2 is computer 
 
 	//integers that represent if the space is free or taken by either player or computer
 	static int A1, A2, A3, B1, B2, B3, C1, C2, C3; 
@@ -21,6 +21,7 @@ public class TicTacToeFinal
 
 	public static void main(String[] args){
 
+		//initializing string variables for prompts/instructions 
 		String prompt = "enter your move: ";
 		String error = "not a valid move. try again: ";
 		String winner = "You win!";
@@ -28,6 +29,7 @@ public class TicTacToeFinal
 		String loser = "You lost!";
 		
 		for (int i = 0; i < 9; i++){
+		
 		displayBoard();
 		System.out.println(prompt);
 		String move = input.nextLine();
@@ -38,29 +40,36 @@ public class TicTacToeFinal
 			move = input.nextLine();
 			}
 		//make the valid move
-		makeMove(move);
+		makeMove(move, 1);
 
 		//check to see if game is won, if not, let the computer make a move
 		if (isGameWon() == true){
 			displayBoard();
 			System.out.println(winner);
-			i = 9;
+			break;	
 		}
-		
+
 		computerMove();
-		makeMove(compmove);
+
+		//check to see if computer move is valid, if it is, make move. if not, get another move. 
+		while (isValidMove(compmove) == false) { 
+			computerMove();
+		}
+		makeMove(compmove, 2);
 		
 		//computer has moved, so increment move counter
 		i++;
+
+		//check if computer won the game
 		if (isGameWon() == true)
 		{
 			displayBoard();
  			System.out.println(loser);
- 			i = 9;
+ 			break; 
+ 			
 		} 
 	}
 		
-		//if i = 9, that means the board is filled, so check if draw
 		if (isGameWon() == false){
 			displayBoard();
 			System.out.println(draw);
@@ -69,31 +78,33 @@ public class TicTacToeFinal
 	}
 
 	public static boolean isValidMove(String X) {
-		if (X.equals("A1") && A1 == 0)
+		if (X.equals("A1") && (A1 == 0))
 			return true;
-		if (X.equals("A2") && A2 == 0)
+		if (X.equals("A2") && (A2 == 0))
 			return true;
-		if (X.equals("A3") && A3 == 0)
+		if (X.equals("A3") && (A3 == 0))
 			return true;
-		if (X.equals("B1") && B1 == 0)
+		if (X.equals("B1") && (B1 == 0))
 			return true;
-		if (X.equals("B2") && B2 == 0)
+		if (X.equals("B2") && (B2 == 0))
 			return true;
-		if (X.equals("B3") && B3 == 0)
+		if (X.equals("B3") && (B3 == 0))
 			return true;
-		if (X.equals("C1") && C1 == 0)
+		if (X.equals("C1") && (C1 == 0))
 			return true;
-		if (X.equals("C2") && C2 == 0)
+		if (X.equals("C2") && (C2 == 0))
 			return true;
-		if (X.equals("C3") && C3 == 0)
+		if (X.equals("C3") && (C3 == 0))
 			return true;
-		return false;			
+		else {
+			return false;	
+			}		
 	}
 
-	public static void makeMove(String X){
+	public static void makeMove(String X, int player){
 		if (X.equals("A1")){
 			A1++;
-			if (A1 == 1){
+			if (player == 1){
 				pA1 = "X";
 			}
 			else {
@@ -102,7 +113,7 @@ public class TicTacToeFinal
 		}
 		if (X.equals("A2")){
 			A2++;
-			if (A2 == 1){
+			if (player == 1){
 				pA2 = "X";
 			}
 			else {
@@ -111,7 +122,7 @@ public class TicTacToeFinal
 		}
 		if (X.equals("A3")){
 			A3++;
-			if (A3 == 1){
+			if (player == 1){
 				pA3 = "X";
 			}
 			else {
@@ -120,7 +131,7 @@ public class TicTacToeFinal
 		}
 		if (X.equals("B1")){
 			B1++;
-			if (B1 == 1){
+			if (player == 1){
 				pB1 = "X";
 			}
 			else {
@@ -129,7 +140,7 @@ public class TicTacToeFinal
 		}
 		if (X.equals("B2")){
 			B2++;
-			if (B2 == 1){
+			if (player == 1){
 				pB2 = "X";
 			}
 			else {
@@ -138,7 +149,7 @@ public class TicTacToeFinal
 		}
 		if (X.equals("B3")){
 			B3++;
-			if (B3 == 1){
+			if (player == 1){
 				pB3 = "X";
 			}
 			else {
@@ -147,7 +158,7 @@ public class TicTacToeFinal
 		}
 		if (X.equals("C1")){
 			C1++;
-			if (C1 == 1){
+			if (player == 1){
 				pC1 = "X";
 			}
 			else {
@@ -156,7 +167,7 @@ public class TicTacToeFinal
 		}
 		if (X.equals("C2")){
 			C2++;
-			if (C2 == 1){
+			if (player == 1){
 				pC2 = "X";
 			}
 			else {
@@ -165,7 +176,7 @@ public class TicTacToeFinal
 		}
 		if (X.equals("C3")){
 			C3++;
-			if (C3 == 1){
+			if (player == 1){
 				pC3 = "X";
 			}
 			else {
@@ -188,64 +199,37 @@ public class TicTacToeFinal
 		int index = (int) (Math.random() * 3);
 		String[] options = {"A", "B", "C"};
 		compmove = options[index] + ((int) (Math.random() * 3 + 1));
-		if (compmove.equals("A1")){
-			A1++;
-		}
-		if (compmove.equals("A2")){
-			A2++;
-		}
-		if (compmove.equals("A3")){
-			A3++;
-		}
-		if (compmove.equals("B1")){
-			B1++;
-		}
-		if (compmove.equals("B2")){
-			B2++;
-		}
-		if (compmove.equals("B3")){
-			B3++;
-		}
-		if (compmove.equals("C1")){
-			C1++;
-		}
-		if (compmove.equals("C2")){
-			C2++;
-		}
-		if (compmove.equals("C3")){
-			C3++;
-		}
 	}
 
 	public static boolean isGameWon() {
 
 		//check to see if any horizontal rows are complete
-		if ((A1 == A2) && (A1 == A3) && (A1 != 0)){
+		if ((pA1.equals(pA2)) && (pA1.equals(pA3)) && (A1 != 0)){
 			return true; 
 
 		}
-		if ((B1 == B2) && (B1 == B3) && (B1 != 0)){
+		if ((pB1.equals(pB2)) && (pB1.equals(pB3)) && (B1 != 0)){
 			return true; 
 		}
-		if ((C1 == C2) && (C1 == C3) && (C1 != 0)){
+		if ((pC1.equals(pC2)) && (pC1.equals(pC3)) && (C1 != 0)){
 			return true; 
 		}
 		//check to see if any vertical rows are complete
-		if ((A1 == B1) && (A1 == C1) && (A1 != 0)){
+		if ((pA1.equals(pB1)) && (pA1.equals(pC1)) && (A1 != 0)){
 			return true;  
 		}
-		if ((A2 == B2) && (A2 == C2) && (A2 != 0)){
+		if ((pA2.equals(pB2)) && (pA2.equals(pC2)) && (A2 != 0)){
 			return true; 
 		}
-		if ((A3 == B3) && (A3 == C3) && (A3 != 0)){
+		if ((pA3.equals(pB3)) && (pA3.equals(pC3)) && (A3 != 0)){
 			return true; 
 		}
 
 		//check to see if any diagonals are complete
-		if ((A1 == B2) && (A1 == C3) && (A1 != 0)){
+		if ((pA1.equals(pB2)) && (pA1.equals(pC3)) && (A1 != 0)){
 			return true; 
 		}
-		if ((A3 == B2) && (A3 == C1) && (A3 != 0)){
+		if ((pA3.equals(pB2)) && (pA3.equals(pC1)) && (A3 != 0)){
 			return true; 
 		}
 		return false;
